@@ -1,4 +1,12 @@
 ---
+pre_tasks:
+  - name: Install python for Ansible
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    register: output
+    changed_when: output.stdout != ""
+    tags: always
+  - setup: # aka gather_facts
+
 - name: playbook triggered
   hosts: all
   vars:
