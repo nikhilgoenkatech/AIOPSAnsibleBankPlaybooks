@@ -78,6 +78,12 @@
                 "annotationType":"Notification"
              }'
              
+    - name: "Fire requests to verify if the application is working as expected"
+      uri:
+        url: https://{{my_ip}}:3000/api/users/
+        method: GET
+      with_sequence: count="5"  
+             
     - name: "stop load test"
       uri:
         url: "{{dtdeploymentapiurl}}"
