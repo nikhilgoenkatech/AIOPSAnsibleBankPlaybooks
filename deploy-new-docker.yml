@@ -49,8 +49,8 @@
                 } 
              }'
              
-   - name: Pause for 1 minutes to build app cache
-     pause:
+    -  name: Pause for 1 minutes to build app cache
+       pause:
        minutes: 1
 
     - name: "start load test"
