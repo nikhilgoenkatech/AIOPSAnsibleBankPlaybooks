@@ -75,7 +75,7 @@
                 }] },
                 "source":"Ansible-playbook",
                 "annotationDescription":"Starting load test as part of deployment of new docker image",
-                "annotationType":"Notification",
+                "annotationType":"Notification"
              }'
              
     - name: "stop load test"
@@ -100,5 +100,5 @@
                 }] },
                 "source":"Ansible-playbook",
                 "annotationDescription":"Stopping load test",
-                "annotationType":"Notification",
+                "annotationType":"Notification"
              }'
