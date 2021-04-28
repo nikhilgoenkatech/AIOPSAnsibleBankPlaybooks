@@ -48,3 +48,56 @@
                   "Upgrading to docker version (tag value)": "1.0" 
                 } 
              }'
+             
+    - pause:
+      minutes: 1
+
+    - name: "start load test"
+      uri:
+        url: "{{dtdeploymentapiurl}}"
+        body_format: json
+        method: POST
+        body: '{ 
+           "eventType": "CUSTOM_ANNOTATION", 
+           "attachRules": 
+             { 
+             "tagRule" : 
+                [{ 
+                   "meTypes" : ["SERVICE"], 
+                   "tags" : 
+                   [ 
+                      { 
+                         "context" : "CONTEXTLESS", 
+                         "key" : "My_service" 
+                      } 
+                   ]
+                }] },
+                "source":"Ansible-playbook",
+                "annotationDescription":"Starting load test as part of deployment of new docker image",
+                "annotationType":"Notification",
+             }'
+             
+    - name: "stop load test"
+      uri:
+        url: "{{dtdeploymentapiurl}}"
+        body_format: json
+        method: POST
+        body: '{ 
+           "eventType": "CUSTOM_ANNOTATION", 
+           "attachRules": 
+             { 
+             "tagRule" : 
+                [{ 
+                   "meTypes" : ["SERVICE"], 
+                   "tags" : 
+                   [ 
+                      { 
+                         "context" : "CONTEXTLESS", 
+                         "key" : "My_service" 
+                      } 
+                   ]
+                }] },
+                "source":"Ansible-playbook",
+                "annotationDescription":"Stopping load test",
+                "annotationType":"Notification",
+             }'
