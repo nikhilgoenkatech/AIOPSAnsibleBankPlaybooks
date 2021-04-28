@@ -82,7 +82,7 @@
       uri:
         url: http://{{my_ip}}:3000/api/users/
         method: GET
-      with_sequence: count="5"  
+      with_sequence: count="50"  
              
     - name: "stop load test"
       uri:
