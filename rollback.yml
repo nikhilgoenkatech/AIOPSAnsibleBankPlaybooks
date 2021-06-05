@@ -15,7 +15,7 @@
 
     - name: fetch deployment events (if any)
       uri:
-        url: "{{dtfetchdeployment}}&eventType=CUSTOM_ANNOTATION"
+        url: "{{dtdeploymentapiurl}}&eventType=CUSTOM_ANNOTATION"
         return_content: yes
       with_items: "{{ impactedEntities }}"
       when: state == "OPEN"
