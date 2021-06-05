@@ -15,7 +15,7 @@
 
     - name: fetch deployment events (if any)
       uri:
-        url: "{{dtfetchdeployment}}"
+        url: "{{dtfetchdeployment}}&eventType=CUSTOM_CONFIGURATION"
         return_content: yes
       with_items: "{{ impactedEntities }}"
       when: state == "OPEN"
