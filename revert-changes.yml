@@ -16,7 +16,7 @@
 
     - name: fetch deployment events (if any)
       uri:
-        url: "{{dtfetchdeployment}}"
+        url: "{{dtdeploymentapiurl}}"
         return_content: yes
       with_items: "{{ impactedEntities }}"
       when: state == "OPEN"
@@ -66,4 +66,94 @@
         method: POST
         body_format: json
         body: "{\"comment\": \"Applied remediation action successfully. Validating the new deployment.\", \"user\": \"{{commentuser}}\",\"context\": \"Ansible Tower\"}"
-      when: state == "OPEN" and (result.status == 200 or result.status == 201 or result.status == 202)
+      when: state == "OPEN"
+      
+    - name: "update deployment information"
+      uri:
+        url: "{{dtdeploymentapiurl}}"
+        body_format: json
+        method: POST
+        body: '{ 
+           "eventType": "CUSTOM_DEPLOYMENT", 
+           "attachRules": 
+             { 
+             "tagRule" : 
+                [{ 
+                   "meTypes" : ["SERVICE"], 
+                   "tags" : 
+                   [ 
+                      { 
+                         "context" : "CONTEXTLESS", 
+                         "key" : "My_service" 
+                      } 
+                   ]
+                }] },
+                "deploymentName":"Rolling back the 1.0 build",
+                "deploymentVersion":"latest",
+                "remediationAction":"revert-changes.yaml",
+                "source":"Ansible",
+                "customProperties":
+                {
+                  "CI Tool": "Ansible Tower",
+                  "Current docker version (tag value) ": "1.0",
+                  "Upgrading to docker version (tag value)": "latest" 
+                }
+             }'
+             
+    - name: "start load test for rollback"
+      uri:
+        url: "{{dtdeploymentapiurl}}"
+        body_format: json
+        method: POST
+        body: '{ 
+           "eventType": "CUSTOM_ANNOTATION", 
+           "attachRules": 
+             { 
+             "tagRule" : 
+                [{ 
+                   "meTypes" : ["SERVICE"], 
+                   "tags" : 
+                   [ 
+                      { 
+                         "context" : "CONTEXTLESS", 
+                         "key" : "My_service" 
+                      } 
+                   ]
+                }] },
+                "source":"Ansible-playbook",
+                "annotationDescription":"Starting load test as part of rollback process.",
+                "annotationType":"Notification"
+             }'
+             
+    - name: "Fire requests to verify if the application is working as expected"
+      uri:
+        url: http://{{my_ip}}:3000/api/users/
+        method: GET
+        status_code:
+          - 404
+      with_sequence: count="50"  
+             
+    - name: "stop load test"
+      uri:
+        url: "{{dtdeploymentapiurl}}"
+        body_format: json
+        method: POST
+        body: '{ 
+           "eventType": "CUSTOM_ANNOTATION", 
+           "attachRules": 
+             { 
+             "tagRule" : 
+                [{ 
+                   "meTypes" : ["SERVICE"], 
+                   "tags" : 
+                   [ 
+                      { 
+                         "context" : "CONTEXTLESS", 
+                         "key" : "My_service" 
+                      } 
+                   ]
+                }] },
+                "source":"Ansible-playbook",
+                "annotationDescription":"Stopping load test that was started for rollback process",
+                "annotationType":"Notification"
+             }'
