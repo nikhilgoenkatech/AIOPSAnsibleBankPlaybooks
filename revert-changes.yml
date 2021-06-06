@@ -40,11 +40,7 @@
        url: "{{ dtcommentapiurl }}"
        method: POST
        body_format: json
-       body: '{
-               \"comment\": \"Looks like the deployment triggered the issue. Rolling back to earlier build.\",
-               \"user\": \" {{commentuser}}\",
-               \"context\": \"Ansible Tower\"
-            }'
+       body: "{\"comment\": \"Looks like the deployment triggered the issue. Rolling back to earlier build.\",\"user\": \" {{commentuser}}\",\"context\": \"Ansible Tower\"}"
 
     - name: stop the latest deployed docker
       docker_container:
@@ -69,9 +65,5 @@
         url: "{{dtcommentapiurl}}"
         method: POST
         body_format: json
-        body: '{
-               \"comment\": \"Applied remediation action successfully. Validating the new deployment.\"
-               \"user\": \"{{commentuser}}\",
-               \"context\": \"Ansible Tower\"
-               }'
+        body: "{\"comment\": \"Applied remediation action successfully. Validating the new deployment.\", \"user\": \"{{commentuser}}\",\"context\": \"Ansible Tower\"}"
       when: state == "OPEN" and (result.status == 200 or result.status == 201 or result.status == 202)
