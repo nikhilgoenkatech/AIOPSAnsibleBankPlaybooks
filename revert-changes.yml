@@ -154,3 +154,12 @@
                 "annotationDescription":"Stopping load test that was started for rollback process",
                 "annotationType":"Notification"
              }'
+             
+    - name: push success comment to dynatrace
+      uri:
+        url: "{{dtcommentapiurl}}"
+        method: POST
+        body_format: json
+        body: "{ \"comment\": \"Rollback and load test completed. Will wait for Davis AI to validate and close the problem.\", \"user\": \"{{commentuser}}\", \"context\": \"Ansible Tower\" }"
+      when: state == "OPEN"
+
