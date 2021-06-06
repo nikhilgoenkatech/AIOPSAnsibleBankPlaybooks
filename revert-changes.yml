@@ -124,7 +124,6 @@
                 "annotationDescription":"Starting load test as part of rollback process.",
                 "annotationType":"Notification"
              }'
-             
     - name: "Fire requests to verify if the application is working as expected"
       uri:
         url: http://{{my_ip}}:3000/api/users/
@@ -132,7 +131,6 @@
         status_code:
           - 404
       with_sequence: count="50"  
-             
     - name: "stop load test"
       uri:
         url: "{{dtdeploymentapiurl}}"
