@@ -41,6 +41,7 @@
        method: POST
        body_format: json
        body: "{\"comment\": \"Looks like the deployment triggered the issue. Rolling back to earlier build.\",\"user\": \" {{commentuser}}\",\"context\": \"Ansible Tower\"}"
+      when: state == "OPEN"
 
     - name: stop the latest deployed docker
       docker_container:
