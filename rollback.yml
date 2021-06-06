@@ -69,8 +69,8 @@
         method: POST
         body_format: json
         body: '{
-               "comment": "Applied remediation action successfully. Validating the new deployment."
-               "user": "{{commentuser}}",
-               "context": "Ansible Tower"
+               \"comment\": \"Applied remediation action successfully. Validating the new deployment.\"
+               \"user\": \"{{commentuser}}\",
+               \"context\": \"Ansible Tower\"
                }'
       when: state == "OPEN" and (result.status == 200 or result.status == 201 or result.status == 202)
