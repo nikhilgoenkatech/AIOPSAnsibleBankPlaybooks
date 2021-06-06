@@ -28,7 +28,7 @@
       set_fact:
         deployment_events: "{{item.json.events}}"
       with_items: "{{ customproperties.results }}"
-      register: app_result
+      register: deployment_events
 
     - name: get most recent deployment
       when: state == "OPEN"
@@ -41,9 +41,9 @@
        method: POST
        body_format: json
        body: '{
-               "comment": "Looks like the deployment" {{deployment_events | first }} "triggered the issue. Rolling back to earlier build.",
-               "user": " {{commentuser}}",
-               "context": "Ansible Tower"
+               \"comment\": \"Looks like the deployment\" {{deployment_events | first }}\" triggered the issue. Rolling back to earlier build.\",
+               \"user\": \" {{commentuser}}\",
+               \"context\": \"Ansible Tower\"
             }'
 
     - name: stop the latest deployed docker
@@ -70,8 +70,8 @@
         method: POST
         body_format: json
         body: '{
-               "comment": "Applied remediation action successfully. Validating the new deployment."
-               "user": "{{commentuser}}",
-               "context": "Ansible Tower"
+               \"comment\": \"Applied remediation action successfully. Validating the new deployment.\"
+               \"user\": \"{{commentuser}}\",
+               \"context\": \"Ansible Tower\"
                }'
       when: state == "OPEN" and (result.status == 200 or result.status == 201 or result.status == 202)
