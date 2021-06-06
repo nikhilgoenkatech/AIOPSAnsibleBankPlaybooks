@@ -41,7 +41,7 @@
        method: POST
        body_format: json
        body: '{
-               \"comment\": \"Looks like the deployment\" {{deployment_events | first }}\" triggered the issue. Rolling back to earlier build.\",
+               \"comment\": \"Looks like the deployment triggered the issue. Rolling back to earlier build.\",
                \"user\": \" {{commentuser}}\",
                \"context\": \"Ansible Tower\"
             }'
