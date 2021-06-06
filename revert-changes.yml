@@ -129,8 +129,9 @@
         url: http://{{my_ip}}:3000/api/users/
         method: GET
         status_code:
-          - 404
-      with_sequence: count="50"  
+          - 200
+      with_sequence: count="50"
+      
     - name: "stop load test"
       uri:
         url: "{{dtdeploymentapiurl}}"
