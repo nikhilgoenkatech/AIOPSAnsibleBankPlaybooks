@@ -27,7 +27,7 @@
       set_fact:
         deployment_events: "{{item.json.events}}"
       with_items: "{{ customproperties.results }}"
-      register: app_result
+      register: deployment_events
 
     - name: get most recent deployment
       when: state == "OPEN"
