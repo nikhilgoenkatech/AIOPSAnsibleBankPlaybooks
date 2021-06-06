@@ -99,6 +99,7 @@
                   "Upgrading to docker version (tag value)": "latest" 
                 }
              }'
+      when: state == "OPEN"
              
     - name: "start load test for rollback"
       uri:
@@ -124,6 +125,8 @@
                 "annotationDescription":"Starting load test as part of rollback process.",
                 "annotationType":"Notification"
              }'
+      when: state == "OPEN"
+             
     - name: "Fire requests to verify if the application is working as expected"
       uri:
         url: http://{{my_ip}}:3000/api/users/
@@ -154,6 +157,7 @@
                 "annotationDescription":"Stopping load test that was started for rollback process",
                 "annotationType":"Notification"
              }'
+      when: state == "OPEN"
              
     - name: push success comment to dynatrace
       uri:
