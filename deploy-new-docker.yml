@@ -84,7 +84,7 @@
         method: GET
         status_code:
           - 404
-      with_sequence: count="50"  
+      with_sequence: count="500"  
              
     - name: "stop load test"
       uri:
