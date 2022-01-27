@@ -64,7 +64,7 @@
                   ]
                 }]
              },
-             "source": "process-restart.yml",
+             "source": "easy-travel-process-restart.yml",
              "annotationType": "auto-remediation",
              "Problem URL": "{{problemUrl}}",
              "annotationDescription": "Restarting the process for auto-remediation towards {{problemId}}"
@@ -72,13 +72,7 @@
       when: state == "OPEN"
 
     - name: Validate the remediation action
-  #    copy: src=synthetic-monitor.sh dest=/home/ubuntu/ACMD1Workshop/additional_resources/app_docker/scripts/synthetic-monitor.sh mode=0777
-  #    sudo: yes
-  #    when: state == "OPEN"
-       
-  #  - name: Execute the script
-      command: sh /home/ubuntu/ACMD1Workshop/additional_resources/app_docker/scripts/synthetic-monitor.sh Remediation {{problemId}} 3000 {{tenanturl}} {{dttoken}} {{ my_ip }}
-  #    sudo: yes
+      command: sh  /home/ubuntu/easyTravel-Docker/synthetic-monitor.sh Remediation {{problemId}} 3000 {{tenanturl}} {{dttoken}} {{ my_ip }}
       when: state == "OPEN"
        
     - name: push validation information to problem
