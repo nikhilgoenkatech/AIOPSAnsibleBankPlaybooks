@@ -37,7 +37,6 @@
     - name: Initiating the remedy action
       shell:
         chdir: /home/ubuntu/easyTravel-Docker
-        command: "docker-compose restart"
       when: state == "OPEN"
       
     - name: update deployment information
