@@ -20,13 +20,6 @@
         body_format: json
         body: "{ \"comment\": \"Remediation playbook started.\", \"user\": \"{{commentuser}}\", \"context\": \"Ansible Tower\" }"
       when: state == "OPEN"
-
-    - name: Collecting primary information
-      action: command docker logs --tail 40 SampleBankApp
-      register: crashed_docker_logs
-   
-    - name: Show test output
-      debug: msg="{{ crashed_docker_logs.stdout }}"
       
     - name: push information to problem
       uri:
