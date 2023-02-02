@@ -1,0 +1,7 @@
+---
+- name: Print current date
+  hosts: all
+  tasks:
+  - name: Get current date
+  command: date
+  register: date_result
